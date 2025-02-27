@@ -1,9 +1,10 @@
+#utils.py
 import asyncio
 import time
 from collections import deque
-from typing import Callable, Any, TypeVar
 import aiofiles
 import json
+from typing import Dict, List, Any, Optional,Callable,TypeVar
 
 T = TypeVar('T')
 
@@ -61,8 +62,18 @@ async def process_with_retry(func: Callable[..., T], *args: Any, max_retries: in
             print(f"Attempt {attempt + 1} failed, retrying in {delay}s: {str(e)}")
             await asyncio.sleep(delay)
 
-async def append_result_jsonl(result: dict, output_path: str):
-    """Append a single processing result to JSONL file asynchronously"""
-    json_str = json.dumps(result, ensure_ascii=False) + '\n'
-    async with aiofiles.open(output_path, 'a', encoding='utf-8') as f:
-        await f.write(json_str)
+
+async def append_result_jsonl(result: Dict, output_path: str):
+    try:
+        async with aiofiles.open(output_path, 'a', encoding='utf-8') as f:
+            # Convert result to a JSON-serializable format
+            serializable_result = {
+                "pdf_name": result["pdf_name"],
+                "page_number": result["page_number"],
+                "queries": result["queries"],
+                "error": result["error"],
+                "processing_time": result["processing_time"]
+            }
+            await f.write(json.dumps(serializable_result, ensure_ascii=False) + '\n')
+    except Exception as e:
+        print(f"Error writing to output file: {str(e)}")
