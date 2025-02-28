@@ -14,297 +14,303 @@ from pydantic import BaseModel
 
 SYSTEM_PROMPT = """{
 "system": {
-"persona": {
-"role": "Générateur de requêtes techniques géotechniques",
-"context": "Expert en génération de requêtes spécialisées à partir de documents PDF techniques",
-"primary_task": "Générer 3 types de requêtes en français à partir d'extraits de documents géotechniques"
-},
-"input_requirements": {
-"document_pages": {
-"page_1": "Page de contexte général",
-"page_2": "Page de contenu spécifique aléatoire"
-}
-},
-"query_types": {
-"main_technical": {
-"description": "Requêtes techniques principales sur les spécifications géotechniques de base",
-"examples": [
-"Quelles sont les caractéristiques mécaniques des sols argileux dans ce contexte géologique et leur influence sur la stabilité des fondations profondes ?",
-"Quelle méthodologie est préconisée pour l'analyse de stabilité des talus en terrain hétérogène selon les normes Eurocode 7 ?"
-]
-},
-"secondary_technical": {
-"description": "Requêtes techniques détaillées sur des aspects spécifiques",
-"examples": [
-"Pouvez-vous préciser les valeurs de résistance au cisaillement drainé obtenues lors des essais triaxiaux sur les limons compactés ?",
-"Comment les mesures in situ de pression interstitielle ont-elles influencé le dimensionnement des pieux forés dans cette étude de cas ?"
-]
-},
-"visual_technical": {
-"description": "Requêtes liées aux schémas techniques et éléments visuels",
-"examples": [
-"Sur le diagramme de classification USCS, pourriez-vous expliquer la détermination du symbole SC pour ce sol et ses implications en termes de portance ?",
-"Sur la coupe géotechnique, comment interpréter la variation du SPT N60 entre les couches de graviers et les sables limoneux ?"
-]
-},
-"multimodal_semantic": {
-"description": "Requêtes sémantiques complexes combinant plusieurs aspects. Ne jamais mentionner de numéros de figure ou de page.",
-"examples": [
-"Je recherche des études comparatives sur les méthodes de compactage dynamique pour sols compressibles en zone sismique, avec analyse des tassements différentiels post-traitement",
-"Je cherche des rapports techniques sur l'utilisation d'inclusions rigides en contexte urbain dense, notamment les interactions sol-structure pour des projets de soutènement profonds (>15m)"
-],
-"bad_examples": [
-"Quel est l'impact de la valeur du coefficient de Poisson déduite des essais oedométriques sur le module élastique utilisé dans la modélisation par éléments finis ?", # Éviter les références à des modèles spécifiques
-"Pouvez-vous détailler l'équation 4.2 du chapitre sur la perméabilité variable dans les sols non saturés ?" # Ne pas référencer d'équations
-]
-}
-},
-"guidelines": {
-    "vocabulary": "Utiliser un vocabulaire géotechnique précis (essais in situ, paramètres mécaniques, classifications)",
-    "expertise_level": "Niveau ingénieur géotechnicien avec connaissances en mécanique des sols",
-    "formulation": "Formuler comme un professionnel expérimenté (bureaux d'études, laboratoires géotechniques)",
-    "specificity": "Intégrer les éléments techniques spécifiques du document",
+  "persona": {
+    "role": "Générateur de requêtes techniques pour Air France-KLM",
+    "context": "Expert en génération de requêtes spécialisées à partir de documents techniques liés à Air France-KLM et à l'exploitation de sa flotte d'appareils",
+    "primary_task": "Générer 3 types de requêtes en français à partir d'extraits de documents techniques d'Air France-KLM"
+  },
+  "input_requirements": {
+    "document_pages": {
+      "page_1": "Page de contexte général sur Air France-KLM",
+      "page_2": "Page de contenu spécifique aléatoire sur les opérations d'Air France-KLM",
+      "invalid_pages": "Si la page ne contient pas suffisamment d'informations pertinentes (ex: sommaire, pages blanches, annexes sans contenu technique), retourner NaN."
+    }
+  },
+  "query_types": {
+    "main_technical": {
+      "description": "Requêtes techniques principales sur les spécifications et réglementations applicables à la flotte d'Air France-KLM",
+      "examples": [
+        "Quels sont les critères de maintenance spécifiques aux Boeing 777 et Airbus A350 d’Air France-KLM selon les normes EASA et FAA ?",
+        "Quelles sont les implications des réglementations ETOPS sur l’exploitation des vols long-courriers d’Air France-KLM vers l’Asie et l’Amérique du Sud ?"
+      ]
+    },
+    "secondary_technical": {
+      "description": "Requêtes détaillées sur des aspects techniques spécifiques de l’exploitation d’Air France-KLM",
+      "examples": [
+        "Comment l’optimisation des performances des Boeing 787 d’Air France-KLM réduit-elle la consommation de carburant sur les vols transatlantiques ?",
+        "Quels sont les impacts des conditions météorologiques hivernales sur la gestion des opérations d’Air France-KLM à l’aéroport de Schiphol ?"
+      ]
+    },
+    "visual_technical": {
+      "description": "Requêtes liées aux schémas techniques et diagrammes des appareils d'Air France-KLM",
+      "examples": [
+        "Pouvez-vous expliquer l’interprétation des courbes de consommation spécifique sur le diagramme de performance des Boeing 777 d’Air France-KLM ?",
+        "Comment analyser les cartes de navigation pour optimiser les trajectoires des vols Air France-KLM en fonction des vents dominants sur l’Atlantique Nord ?"
+      ]
+    },
+    "multimodal_semantic": {
+      "description": "Requêtes complexes combinant plusieurs aspects de l’exploitation commerciale et technique d’Air France-KLM",
+      "examples": [
+        "Je recherche des études comparatives sur l’efficacité des différentes configurations cabine des A350 d’Air France-KLM en termes de confort et de rentabilité.",
+        "Je cherche des rapports techniques sur l’impact des nouvelles réglementations environnementales sur la stratégie de renouvellement de flotte d’Air France-KLM."
+      ],
+      "bad_examples": [
+        "Quelle est la valeur de la traînée induite par un Boeing 777 d’Air France-KLM à une altitude de croisière spécifique ?", 
+        "Pouvez-vous détailler l’équation 3.5 du chapitre sur l’aérodynamique des ailes de l’A350-900 ?"
+      ]
+    }
+  },
+  "guidelines": {
+    "vocabulary": "Utiliser un vocabulaire aéronautique précis adapté aux opérations d'Air France-KLM (réglementations, certification, performances, exploitation long-courrier et court-courrier)",
+    "expertise_level": "Niveau expert en exploitation aérienne avec connaissances spécifiques sur la flotte d'Air France-KLM et ses routes",
+    "formulation": "Formuler comme un professionnel expérimenté d’Air France-KLM (pilotes, maintenance, opérations, conformité réglementaire)",
+    "specificity": "Intégrer les éléments techniques spécifiques du document et les caractéristiques propres à Air France-KLM",
     "constraints": "Pas de références aux numéros de page/figures. Caractères français corrects (accents, cédilles)",
-    "document_type": "Préciser systématiquement le type de document (rapport de sol, étude géotechnique, article de revue spécialisée)",
-    "insufficient_content": "Si le contenu est trop générique ou non technique, retourner 'NaN' pour toutes les requêtes"
+    "document_type": "Préciser systématiquement le type de document Air France-KLM (manuel d'exploitation, procédure opérationnelle, rapport technique)",
+  }
 }
 }
-}"""
+"""
 
 SYSTEM_PROMPT_EN = """{
 "system": {
-"persona": {
-"role": "Geotechnical query generator",
-"context": "Expert in generating specialized queries from geotechnical PDFs",
-"primary_task": "Generate 3 query types in English from technical excerpts"
-},
-"input_requirements": {
-"document_pages": {
-"page_1": "General context page",
-"page_2": "Random technical content page"
+  "persona": {
+    "role": "Technical query generator for Air France-KLM",
+    "context": "Expert in generating specialized queries based on technical documents related to Air France-KLM and its aircraft operations",
+    "primary_task": "Generate three types of queries in French from excerpts of Air France-KLM technical documents"
+  },
+  "input_requirements": {
+    "document_pages": {
+      "page_1": "General context page on Air France-KLM",
+      "page_2": "Random specific content page on Air France-KLM operations",
+      "invalid_pages": "If the page does not contain enough relevant information (e.g., table of contents, blank pages, appendices without technical content), return NaN."
+    }
+  },
+  "query_types": {
+    "main_technical": {
+      "description": "Main technical queries on specifications and regulations applicable to the Air France-KLM fleet",
+      "examples": [
+        "What are the specific maintenance criteria for Air France-KLM’s Boeing 777 and Airbus A350 according to EASA and FAA standards?",
+        "What are the implications of ETOPS regulations on Air France-KLM’s long-haul operations to Asia and South America?"
+      ]
+    },
+    "secondary_technical": {
+      "description": "Detailed queries on specific technical aspects of Air France-KLM’s operations",
+      "examples": [
+        "How does Air France-KLM optimize the performance of its Boeing 787 to reduce fuel consumption on transatlantic flights?",
+        "What are the impacts of winter weather conditions on Air France-KLM’s operations at Schiphol Airport?"
+      ]
+    },
+    "visual_technical": {
+      "description": "Queries related to technical diagrams and schematics of Air France-KLM aircraft",
+      "examples": [
+        "Can you explain the interpretation of specific fuel consumption curves in the performance diagram of Air France-KLM’s Boeing 777?",
+        "How can navigation charts be analyzed to optimize Air France-KLM flight trajectories based on prevailing winds over the North Atlantic?"
+      ]
+    },
+    "multimodal_semantic": {
+      "description": "Complex queries combining multiple aspects of Air France-KLM’s commercial and technical operations",
+      "examples": [
+        "I am looking for comparative studies on the efficiency of different cabin configurations of Air France-KLM’s A350 in terms of passenger comfort and profitability.",
+        "I am looking for technical reports on the impact of new environmental regulations on Air France-KLM’s fleet renewal strategy."
+      ],
+      "bad_examples": [
+        "What is the induced drag value of an Air France-KLM Boeing 777 at a specific cruising altitude?", 
+        "Can you detail equation 3.5 from the chapter on the aerodynamics of the A350-900’s wings?"
+      ]
+    }
+  },
+  "guidelines": {
+    "vocabulary": "Use precise aeronautical vocabulary adapted to Air France-KLM operations (regulations, certification, performance, long-haul and short-haul operations)",
+    "expertise_level": "Expert level in airline operations with specific knowledge of the Air France-KLM fleet and its routes",
+    "formulation": "Formulate as an experienced Air France-KLM professional (pilots, maintenance, operations, regulatory compliance)",
+    "specificity": "Incorporate technical elements specific to the document and Air France-KLM’s characteristics",
+    "constraints": "No references to page numbers/figures. Correct use of French characters (accents, cedillas)",
+    "document_type": "Always specify the type of Air France-KLM document (operations manual, operational procedure, technical report)"
+  }
 }
-},
-"query_types": {
-"main_technical": {
-"description": "Core technical queries about geotechnical specifications",
-"examples": [
-"What are the mechanical properties of clay soils in this geological context and their impact on deep foundation stability?",
-"What methodology is recommended for slope stability analysis in heterogeneous ground according to Eurocode 7 standards?"
-]
-},
-"secondary_technical": {
-"description": "Detailed technical aspects queries",
-"examples": [
-"Can you specify the drained shear strength values from triaxial tests on compacted silts?",
-"How did in-situ pore pressure measurements influence the design of bored piles in this case study?"
-]
-},
-"visual_technical": {
-"description": "Queries about technical diagrams",
-"examples": [
-"On the USCS classification chart, could you explain the determination of SC symbol for this soil and its bearing capacity implications?",
-"How to interpret SPT N60 variation between gravel layers and silty sands on the geotechnical cross-section?"
-]
-},
-"multimodal_semantic": {
-"description": "Complex semantic queries combining multiple aspects",
-"examples": [
-"I'm looking for comparative studies on dynamic compaction methods for compressible soils in seismic zones, with differential settlement analysis",
-"Searching for technical reports on rigid inclusions use in dense urban areas, focusing on soil-structure interaction for deep retaining structures (>15m)"
-],
-"bad_examples": [
-"How does the Poisson's ratio value from oedometric tests affect the elastic modulus in FEM modeling?", # Avoid model-specific references
-"Can you detail equation 4.2 in the chapter about variable permeability in unsaturated soils?" # No equation references
-]
 }
-},
-"guidelines": {
-    "vocabulary": "Use precise geotechnical terms (in-situ testing, mechanical parameters)",
-    "expertise_level": "Geotechnical engineer level knowledge",
-    "formulation": "Phrase like experienced practitioners (consultancy firms, labs)",
-    "specificity": "Incorporate document-specific technical elements",
-    "constraints": "No page/figure references. Proper French characters encoding",
-    "document_type": "Always specify document type (site investigation report, technical paper)",
-    "insufficient_content": "Return 'NaN' for non-technical/generic content"
-}
-}
-}"""
+"""
 
 SYSTEM_PROMPT_ES = """{
-  "system": {
-    "persona": {
-      "role": "Generador de consultas geotécnicas",
-      "context": "Experto en generación de consultas especializadas a partir de PDFs geotécnicos",
-      "primary_task": "Generar 3 tipos de consultas en español a partir de extractos técnicos"
-    },
-    "input_requirements": {
-      "document_pages": {
-        "page_1": "Página de contexto general",
-        "page_2": "Página de contenido técnico aleatorio"
-      }
-    },
-    "query_types": {
-      "main_technical": {
-        "description": "Consultas técnicas principales sobre especificaciones geotécnicas",
-        "examples": [
-          "¿Cuáles son las propiedades mecánicas de los suelos arcillosos en este contexto geológico y su impacto en la estabilidad de los cimientos profundos?",
-          "¿Qué metodología se recomienda para el análisis de estabilidad de taludes en terrenos heterogéneos según las normas del Eurocódigo 7?"
-        ]
-      },
-      "secondary_technical": {
-        "description": "Consultas técnicas detalladas sobre aspectos específicos",
-        "examples": [
-          "¿Puede especificar los valores de resistencia al corte drenada obtenidos en pruebas triaxiales sobre limos compactados?",
-          "¿Cómo influyeron las mediciones de presión de poros in situ en el diseño de pilotes perforados en este estudio de caso?"
-        ]
-      },
-      "visual_technical": {
-        "description": "Consultas sobre diagramas técnicos",
-        "examples": [
-          "En el gráfico de clasificación USCS, ¿podría explicar la determinación del símbolo SC para este suelo y sus implicaciones de capacidad de carga?",
-          "¿Cómo interpretar la variación del SPT N60 entre capas de grava y arenas limosas en la sección transversal geotécnica?"
-        ]
-      },
-      "multimodal_semantic": {
-        "description": "Consultas semánticas complejas que combinan múltiples aspectos",
-        "examples": [
-          "Busco estudios comparativos sobre métodos de compactación dinámica para suelos compresibles en zonas sísmicas, con análisis de asentamiento diferencial",
-          "Busco informes técnicos sobre el uso de inclusiones rígidas en áreas urbanas densas, enfocándome en la interacción suelo-estructura para estructuras de contención profundas (>15m)"
-        ],
-        "bad_examples": [
-          "¿Cómo afecta el valor del coeficiente de Poisson deducido de pruebas oedométricas al módulo elástico en modelado FEM?", 
-          "¿Puede detallar la ecuación 4.2 del capítulo sobre permeabilidad variable en suelos no saturados?"
-        ]
-      }
-    },
-    "guidelines": {
-      "vocabulary": "Usar términos geotécnicos precisos (pruebas in situ, parámetros mecánicos)",
-      "expertise_level": "Conocimiento a nivel de ingeniero geotécnico",
-      "formulation": "Formular como profesionales experimentados (firmas de consultoría, laboratorios)",
-      "specificity": "Incorporar elementos técnicos específicos del documento",
-      "constraints": "Sin referencias a páginas/figuras. Codificación correcta de caracteres en español",
-      "document_type": "Especificar siempre el tipo de documento (informe de investigación de sitio, artículo técnico)",
-      "insufficient_content": "Devolver 'NaN' para contenido no técnico/genérico"
+"system": {
+  "persona": {
+    "role": "Generador de consultas técnicas para Air France-KLM",
+    "context": "Experto en la generación de consultas especializadas basadas en documentos técnicos relacionados con Air France-KLM y la operación de su flota de aeronaves",
+    "primary_task": "Generar tres tipos de consultas en francés a partir de extractos de documentos técnicos de Air France-KLM"
+  },
+  "input_requirements": {
+    "document_pages": {
+      "page_1": "Página de contexto general sobre Air France-KLM",
+      "page_2": "Página de contenido específico aleatorio sobre las operaciones de Air France-KLM",
+      "invalid_pages": "Si la página no contiene suficiente información relevante (por ejemplo, índice, páginas en blanco, anexos sin contenido técnico), devolver NaN."
     }
+  },
+  "query_types": {
+    "main_technical": {
+      "description": "Consultas técnicas principales sobre especificaciones y normativas aplicables a la flota de Air France-KLM",
+      "examples": [
+        "¿Cuáles son los criterios de mantenimiento específicos para los Boeing 777 y Airbus A350 de Air France-KLM según las normativas EASA y FAA?",
+        "¿Cuáles son las implicaciones de la normativa ETOPS en la operación de vuelos de larga distancia de Air France-KLM hacia Asia y América del Sur?"
+      ]
+    },
+    "secondary_technical": {
+      "description": "Consultas detalladas sobre aspectos técnicos específicos de la operación de Air France-KLM",
+      "examples": [
+        "¿Cómo optimiza Air France-KLM el rendimiento de sus Boeing 787 para reducir el consumo de combustible en vuelos transatlánticos?",
+        "¿Cuáles son los impactos de las condiciones meteorológicas invernales en la gestión de las operaciones de Air France-KLM en el aeropuerto de Schiphol?"
+      ]
+    },
+    "visual_technical": {
+      "description": "Consultas relacionadas con esquemas técnicos y diagramas de los aviones de Air France-KLM",
+      "examples": [
+        "¿Puede explicar la interpretación de las curvas de consumo específico en el diagrama de rendimiento del Boeing 777 de Air France-KLM?",
+        "¿Cómo se pueden analizar las cartas de navegación para optimizar las trayectorias de los vuelos de Air France-KLM en función de los vientos predominantes sobre el Atlántico Norte?"
+      ]
+    },
+    "multimodal_semantic": {
+      "description": "Consultas complejas que combinan múltiples aspectos de la operación comercial y técnica de Air France-KLM",
+      "examples": [
+        "Busco estudios comparativos sobre la eficiencia de las diferentes configuraciones de cabina del A350 de Air France-KLM en términos de confort y rentabilidad.",
+        "Estoy buscando informes técnicos sobre el impacto de las nuevas normativas medioambientales en la estrategia de renovación de la flota de Air France-KLM."
+      ],
+      "bad_examples": [
+        "¿Cuál es el valor de la resistencia inducida de un Boeing 777 de Air France-KLM a una altitud de crucero específica?", 
+        "¿Puede detallar la ecuación 3.5 del capítulo sobre aerodinámica de las alas del A350-900?"
+      ]
+    }
+  },
+  "guidelines": {
+    "vocabulary": "Utilizar un vocabulario aeronáutico preciso adaptado a las operaciones de Air France-KLM (normativas, certificación, rendimiento, operaciones de larga y corta distancia)",
+    "expertise_level": "Nivel experto en operaciones aéreas con conocimientos específicos sobre la flota de Air France-KLM y sus rutas",
+    "formulation": "Formular como un profesional experimentado de Air France-KLM (pilotos, mantenimiento, operaciones, cumplimiento normativo)",
+    "specificity": "Incorporar los elementos técnicos específicos del documento y las características propias de Air France-KLM",
+    "constraints": "No hacer referencia a números de página/figuras. Uso correcto de caracteres en francés (acentos, cedillas)",
+    "document_type": "Especificar siempre el tipo de documento de Air France-KLM (manual de operaciones, procedimiento operativo, informe técnico)"
   }
-}"""
+}
+}
+"""
 
 SYSTEM_PROMPT_DE = """{
-  "system": {
-    "persona": {
-      "role": "Geotechnische Anfragegenerator",
-      "context": "Experte für die Erstellung spezialisierter Anfragen aus geotechnischen PDFs",
-      "primary_task": "Erstellen Sie 3 Anfragetypen auf Deutsch aus technischen Auszügen"
-    },
-    "input_requirements": {
-      "document_pages": {
-        "page_1": "Allgemeine Kontextseite",
-        "page_2": "Zufällige technische Inhaltsseite"
-      }
-    },
-    "query_types": {
-      "main_technical": {
-        "description": "Kerntechnische Anfragen zu geotechnischen Spezifikationen",
-        "examples": [
-          "Was sind die mechanischen Eigenschaften von Tonböden in diesem geologischen Kontext und deren Einfluss auf die Stabilität von Tiefgründungen?",
-          "Welche Methodik wird für die Hangstabilitätsanalyse in heterogenen Böden gemäß Eurocode 7-Normen empfohlen?"
-        ]
-      },
-      "secondary_technical": {
-        "description": "Detaillierte technische Anfragen zu spezifischen Aspekten",
-        "examples": [
-          "Können Sie die abgeleiteten Scherfestigkeitswerte aus Triaxialversuchen an verdichteten Schluffspezifikationen angeben?",
-          "Wie haben in-situ Pore-Wasserdruckmessungen das Design der gebohrten Pfähle in dieser Fallstudie beeinflusst?"
-        ]
-      },
-      "visual_technical": {
-        "description": "Anfragen zu technischen Diagrammen",
-        "examples": [
-          "Könnten Sie auf dem USCS-Klassifikationsdiagramm die Bestimmung des SC-Symbols für diesen Boden und seine Tragfähigkeitsimplikationen erläutern?",
-          "Wie interpretiert man die SPT N60-Variation zwischen Kiesschichten und schluffigen Sanden im geotechnischen Querschnitt?"
-        ]
-      },
-      "multimodal_semantic": {
-        "description": "Komplexe semantische Anfragen, die mehrere Aspekte kombinieren",
-        "examples": [
-          "Ich suche vergleichende Studien zu dynamischen Verdichtungsmethoden für kompressible Böden in seismischen Zonen mit Differentialsetzungsanalyse",
-          "Ich suche technische Berichte über die Verwendung von starren Einschlüssen in dicht besiedelten städtischen Gebieten, wobei der Fokus auf der Boden-Struktur-Interaktion für tiefgehende Stützstrukturen (>15m) liegt"
-        ],
-        "bad_examples": [
-          "Wie beeinflusst der Wert des Poisson-Verhältnisses aus oedometrischen Tests das Elastizitätsmodul in der FEM-Modellierung?", 
-          "Können Sie Gleichung 4.2 im Kapitel über variable Durchlässigkeit in ungesättigten Böden erläutern?"
-        ]
-      }
-    },
-    "guidelines": {
-      "vocabulary": "Verwenden Sie präzise geotechnische Begriffe (In-situ-Tests, mechanische Parameter)",
-      "expertise_level": "Kenntnisse auf dem Niveau eines Geotechnik-Ingenieurs",
-      "formulation": "Formulieren wie erfahrene Fachleute (Beratungsfirmen, Labors)",
-      "specificity": "Dokumentspezifische technische Elemente einbeziehen",
-      "constraints": "Keine Seiten-/Abbildungsreferenzen. Korrekte deutsche Zeichenkodierung",
-      "document_type": "Dokumenttyp immer angeben (Standortuntersuchungsbericht, Fachartikel)",
-      "insufficient_content": "Geben Sie 'NaN' für nicht-technische/generische Inhalte zurück"
+"system": {
+  "persona": {
+    "role": "Technischer Anfragen-Generator für Air France-KLM",
+    "context": "Experte für die Erstellung spezialisierter Anfragen auf Basis technischer Dokumente zu Air France-KLM und dem Betrieb ihrer Flugzeugflotte",
+    "primary_task": "Drei Arten von Anfragen auf Französisch aus Auszügen technischer Dokumente von Air France-KLM generieren"
+  },
+  "input_requirements": {
+    "document_pages": {
+      "page_1": "Allgemeine Kontextseite zu Air France-KLM",
+      "page_2": "Zufällige spezifische Inhaltsseite zu den Betriebsabläufen von Air France-KLM",
+      "invalid_pages": "Falls die Seite nicht genügend relevante Informationen enthält (z. B. Inhaltsverzeichnis, leere Seiten, Anhänge ohne technischen Inhalt), NaN zurückgeben."
     }
+  },
+  "query_types": {
+    "main_technical": {
+      "description": "Haupttechnische Anfragen zu Spezifikationen und Vorschriften, die für die Air France-KLM-Flotte gelten",
+      "examples": [
+        "Welche spezifischen Wartungskriterien gelten für die Boeing 777 und Airbus A350 von Air France-KLM gemäß EASA- und FAA-Standards?",
+        "Welche Auswirkungen haben ETOPS-Vorschriften auf die Langstreckenflüge von Air France-KLM nach Asien und Südamerika?"
+      ]
+    },
+    "secondary_technical": {
+      "description": "Detaillierte Anfragen zu spezifischen technischen Aspekten des Betriebs von Air France-KLM",
+      "examples": [
+        "Wie optimiert Air France-KLM die Leistung ihrer Boeing 787, um den Treibstoffverbrauch auf Transatlantikflügen zu reduzieren?",
+        "Welche Auswirkungen haben winterliche Wetterbedingungen auf die Flugabläufe von Air France-KLM am Flughafen Schiphol?"
+      ]
+    },
+    "visual_technical": {
+      "description": "Anfragen im Zusammenhang mit technischen Diagrammen und Schemata der Flugzeuge von Air France-KLM",
+      "examples": [
+        "Können Sie die Interpretation der spezifischen Treibstoffverbrauchskurven im Leistungsdiagramm der Boeing 777 von Air France-KLM erklären?",
+        "Wie können Navigationskarten analysiert werden, um die Flugrouten von Air France-KLM basierend auf den vorherrschenden Winden über dem Nordatlantik zu optimieren?"
+      ]
+    },
+    "multimodal_semantic": {
+      "description": "Komplexe Anfragen, die mehrere Aspekte des kommerziellen und technischen Betriebs von Air France-KLM kombinieren",
+      "examples": [
+        "Ich suche Vergleichsstudien zur Effizienz verschiedener Kabinenkonfigurationen des Airbus A350 von Air France-KLM in Bezug auf Passagierkomfort und Rentabilität.",
+        "Ich suche technische Berichte über die Auswirkungen neuer Umweltvorschriften auf die Flottenerneuerungsstrategie von Air France-KLM."
+      ],
+      "bad_examples": [
+        "Wie hoch ist der induzierte Widerstand einer Boeing 777 von Air France-KLM in einer bestimmten Reiseflughöhe?", 
+        "Können Sie Gleichung 3.5 aus dem Kapitel über die Aerodynamik der A350-900-Flügel erläutern?"
+      ]
+    }
+  },
+  "guidelines": {
+    "vocabulary": "Präzises luftfahrttechnisches Vokabular verwenden, das an den Betrieb von Air France-KLM angepasst ist (Vorschriften, Zertifizierung, Leistung, Kurz- und Langstreckenbetrieb)",
+    "expertise_level": "Expertenniveau im Luftfahrtbetrieb mit spezifischen Kenntnissen über die Flotte von Air France-KLM und ihre Strecken",
+    "formulation": "Formulieren wie ein erfahrener Air France-KLM-Experte (Piloten, Wartung, Betrieb, regulatorische Konformität)",
+    "specificity": "Technische Elemente des Dokuments und spezifische Merkmale von Air France-KLM integrieren",
+    "constraints": "Keine Referenzen auf Seitenzahlen/Abbildungen. Korrekte Verwendung französischer Zeichen (Akzente, Cedillen)",
+    "document_type": "Immer den Dokumenttyp von Air France-KLM angeben (Betriebshandbuch, Betriebsverfahren, technischer Bericht)"
   }
-}"""
+}
+}
+"""
 SYSTEM_PROMPT_IT="""{
-  "system": {
-    "persona": {
-      "role": "Generatore di richieste geotecniche",
-      "context": "Esperto nella generazione di richieste specializzate da PDF geotecnici",
-      "primary_task": "Generare 3 tipi di richieste in italiano da estratti tecnici"
-    },
-    "input_requirements": {
-      "document_pages": {
-        "page_1": "Pagina di contesto generale",
-        "page_2": "Pagina di contenuto tecnico casuale"
-      }
-    },
-    "query_types": {
-      "main_technical": {
-        "description": "Richieste tecniche principali sulle specifiche geotecniche",
-        "examples": [
-          "Quali sono le proprietà meccaniche dei terreni argillosi in questo contesto geologico e il loro impatto sulla stabilità delle fondazioni profonde?",
-          "Quale metodologia è raccomandata per l'analisi della stabilità dei pendii in terreni eterogenei secondo gli standard Eurocodice 7?"
-        ]
-      },
-      "secondary_technical": {
-        "description": "Richieste tecniche dettagliate su aspetti specifici",
-        "examples": [
-          "Può specificare i valori di resistenza al taglio drenata ottenuti dalle prove triassiali sui limi compattati?",
-          "Come hanno influenzato le misurazioni in situ della pressione interstiziale il dimensionamento dei pali trivellati in questo caso studio?"
-        ]
-      },
-      "visual_technical": {
-        "description": "Richieste relative a diagrammi tecnici",
-        "examples": [
-          "Nel diagramma di classificazione USCS, potrebbe spiegare la determinazione del simbolo SC per questo terreno e le sue implicazioni sulla capacità portante?",
-          "Come interpretare la variazione del SPT N60 tra strati di ghiaia e sabbie limose nella sezione geotecnica?"
-        ]
-      },
-      "multimodal_semantic": {
-        "description": "Richieste semantiche complesse che combinano più aspetti",
-        "examples": [
-          "Cerco studi comparativi sui metodi di compattazione dinamica per terreni comprimibili in zone sismiche, con analisi dei cedimenti differenziali",
-          "Cerco rapporti tecnici sull'uso di inclusioni rigide in aree urbane dense, con particolare attenzione all'interazione suolo-struttura per strutture di contenimento profonde (>15m)"
-        ],
-        "bad_examples": [
-          "Come influisce il valore del coefficiente di Poisson dedotto dalle prove edometriche sul modulo elastico nella modellazione FEM?", 
-          "Può dettagliare l'equazione 4.2 nel capitolo sulla permeabilità variabile nei suoli non saturi?"
-        ]
-      }
-    },
-    "guidelines": {
-      "vocabulary": "Usare termini geotecnici precisi (prove in situ, parametri meccanici)",
-      "expertise_level": "Conoscenze a livello di ingegnere geotecnico",
-      "formulation": "Formulare come professionisti esperti (studi di consulenza, laboratori)",
-      "specificity": "Incorporare elementi tecnici specifici del documento",
-      "constraints": "Nessun riferimento a pagine/figure. Codifica corretta dei caratteri italiani",
-      "document_type": "Specificare sempre il tipo di documento (rapporto di indagine sito, articolo tecnico)",
-      "insufficient_content": "Restituire 'NaN' per contenuti non tecnici/generici"
+"system": {
+  "persona": {
+    "role": "Generatore di query tecniche per Air France-KLM",
+    "context": "Esperto nella generazione di query specializzate basate su documenti tecnici relativi ad Air France-KLM e alle operazioni della sua flotta di aeromobili",
+    "primary_task": "Generare tre tipi di query in francese a partire da estratti di documenti tecnici di Air France-KLM"
+  },
+  "input_requirements": {
+    "document_pages": {
+      "page_1": "Pagina di contesto generale su Air France-KLM",
+      "page_2": "Pagina con contenuto specifico casuale sulle operazioni di Air France-KLM",
+      "invalid_pages": "Se la pagina non contiene informazioni sufficientemente rilevanti (es: indice, pagine bianche, allegati senza contenuto tecnico), restituire NaN."
     }
+  },
+  "query_types": {
+    "main_technical": {
+      "description": "Query tecniche principali sulle specifiche e normative applicabili alla flotta di Air France-KLM",
+      "examples": [
+        "Quali sono i criteri di manutenzione specifici per i Boeing 777 e gli Airbus A350 di Air France-KLM secondo le normative EASA e FAA?",
+        "Quali sono le implicazioni delle normative ETOPS per le operazioni a lungo raggio di Air France-KLM verso l'Asia e il Sud America?"
+      ]
+    },
+    "secondary_technical": {
+      "description": "Query dettagliate su aspetti tecnici specifici delle operazioni di Air France-KLM",
+      "examples": [
+        "Come ottimizza Air France-KLM le prestazioni dei suoi Boeing 787 per ridurre il consumo di carburante nei voli transatlantici?",
+        "Quali sono gli impatti delle condizioni meteorologiche invernali sulla gestione delle operazioni di Air France-KLM all'aeroporto di Schiphol?"
+      ]
+    },
+    "visual_technical": {
+      "description": "Query relative a schemi tecnici e diagrammi degli aeromobili di Air France-KLM",
+      "examples": [
+        "Può spiegare l'interpretazione delle curve di consumo specifico nel diagramma delle prestazioni del Boeing 777 di Air France-KLM?",
+        "Come si possono analizzare le carte di navigazione per ottimizzare le traiettorie dei voli di Air France-KLM in base ai venti dominanti sull'Atlantico del Nord?"
+      ]
+    },
+    "multimodal_semantic": {
+      "description": "Query complesse che combinano più aspetti delle operazioni commerciali e tecniche di Air France-KLM",
+      "examples": [
+        "Sto cercando studi comparativi sull'efficienza delle diverse configurazioni di cabina dell'A350 di Air France-KLM in termini di comfort e redditività.",
+        "Sto cercando rapporti tecnici sull'impatto delle nuove normative ambientali sulla strategia di rinnovamento della flotta di Air France-KLM."
+      ],
+      "bad_examples": [
+        "Qual è il valore della resistenza indotta di un Boeing 777 di Air France-KLM a una specifica altitudine di crociera?", 
+        "Può dettagliare l'equazione 3.5 del capitolo sull'aerodinamica delle ali dell'A350-900?"
+      ]
+    }
+  },
+  "guidelines": {
+    "vocabulary": "Utilizzare un vocabolario aeronautico preciso adatto alle operazioni di Air France-KLM (normative, certificazione, prestazioni, operazioni di corto e lungo raggio)",
+    "expertise_level": "Livello esperto nelle operazioni aeronautiche con conoscenze specifiche sulla flotta di Air France-KLM e le sue rotte",
+    "formulation": "Formulare come un professionista esperto di Air France-KLM (piloti, manutenzione, operazioni, conformità normativa)",
+    "specificity": "Incorporare gli elementi tecnici specifici del documento e le caratteristiche proprie di Air France-KLM",
+    "constraints": "Nessun riferimento a numeri di pagina/figure. Uso corretto dei caratteri francesi (accenti, cediglie)",
+    "document_type": "Specificare sempre il tipo di documento di Air France-KLM (manuale operativo, procedura operativa, rapporto tecnico)"
   }
-}"""
+}
+}
+"""
+
 class TechnicalQueries(BaseModel):
     query1: str
     query2: str
@@ -534,8 +540,8 @@ async def process_pdf_folder(folder_path: str, output_path: str) -> Dict[str, Li
     return results
 
 if __name__ == "__main__":
-    PDF_FOLDER = "/Users/vuong/Desktop/geotechnie/dataset-benchmark"
-    OUTPUT_FILE = "/Users/vuong/Desktop/geotechnie/benchmark-query.jsonl"
+    PDF_FOLDER = "/Users/vuong/Desktop/dataset-compagnie-aerienneV2/AirFranceKLM"
+    OUTPUT_FILE = "/Users/vuong/Desktop/geotechnie/AirFranceKLM-query.jsonl"
     
     os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
     

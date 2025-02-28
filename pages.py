@@ -29,5 +29,5 @@ def compter_pages_pdfs(chemin_dossier):
 
 # Utilisation avec votre chemin Mac
 if __name__ == "__main__":
-    chemin_dossier = "/Users/vuong/Desktop/geotechnie/dataset-benchmark-v2"
+    chemin_dossier = "/Users/vuong/Desktop/dataset-compagnie-aerienneV2/AirFranceKLM"
     compter_pages_pdfs(chemin_dossier)

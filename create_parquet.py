@@ -180,8 +180,8 @@ def create_training_parquets(jsonl_paths: list, pdf_folder: str, output_folder: 
     print(f"Files saved in {output_folder}")
 
 if __name__ == "__main__":
-    INPUT_DIR = "/Users/vuong/Desktop/dataset-geotechnie"
-    OUTPUT_FOLDER = "/Users/vuong/Desktop/geotechnie/parquet_files"
+    INPUT_DIR = "/Users/vuong/Desktop/dataset-compagnie-aerienneV2/FrenchBee"
+    OUTPUT_FOLDER = "/Users/vuong/Desktop/geotechnie/FrenchBee_parquet_files"
     
     # Liste des fichiers JSONL à traiter
     jsonl_files = [

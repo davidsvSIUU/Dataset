@@ -19,7 +19,7 @@ def clean_jsonl(input_file: str, output_file: str = None):
             try:
                 data = json.loads(line.strip())
                 # Vérifie si l'une des valeurs dans queries est 'NaN'
-                if 'queries' in data and not any(v == "\"NaN\"" for v in data['queries'].values()):
+                if 'queries' in data and not any(v == "NaN" for v in data['queries'].values()):
                     valid_lines.append(line)
             except json.JSONDecodeError:
                 print(f"Erreur de décodage JSON pour la ligne: {line}")
@@ -37,11 +37,10 @@ def clean_jsonl(input_file: str, output_file: str = None):
         print(f"Nouveau fichier créé: {output_file}")
     
     print(f"Nombre de lignes conservées: {len(valid_lines)}")
-
 # Exemple d'utilisation
 if __name__ == "__main__":
     # Remplacez par le chemin de votre fichier
-    input_file = "/Users/vuong/Desktop/geotechnie/benchmark-query.jsonl"
+    input_file = "/Users/vuong/Desktop/geotechnie/AirFranceKLM-query.jsonl"
     
     # Option 1: Écraser le fichier d'origine
     clean_jsonl(input_file)
