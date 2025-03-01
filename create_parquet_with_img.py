@@ -15,40 +15,51 @@ import matplotlib.pyplot as plt
 logger = logging.getLogger(__name__)
 
 # Define the path directly in the code
-RANKED_RESULTS_FILE = "/Users/vuong/Desktop/geotechnie/AirFranceKLM-query.jsonl"
-PDF_FOLDER = "/Users/vuong/Desktop/dataset-compagnie-aerienneV2/AirFranceKLM"
+RANKED_RESULTS_FILE = "C:\\Users\\david\\Desktop\\dataset\\EasyJet-query.jsonl"
+PDF_FOLDER = "C:\\Users\\david\\Desktop\\easyjet"
 
 
 def capture_page_image_hd(pdf_path: str, page_number: int) -> bytes:
+    pdf_document = None
+    tmp_file_name = None
     try:
         pdf_document = fitz.open(pdf_path)
         page = pdf_document[page_number]
         
         # Increase the resolution/DPI
-        zoom = 2.0  # Increase this value for higher resolution
-        mat = fitz.Matrix(zoom, zoom)  # Create transformation matrix
+        zoom = 2.0
+        mat = fitz.Matrix(zoom, zoom)
         
         # Get the pixmap with enhanced settings
         pix = page.get_pixmap(
-            matrix=mat,            # Apply zoom transformation
-            alpha=False,           # Remove alpha channel for cleaner output
-            colorspace=fitz.csRGB  # Ensure RGB colorspace
+            matrix=mat,
+            alpha=False,
+            colorspace=fitz.csRGB
         )
         
-        with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp_file:
-            pix.save(tmp_file.name)
-            with open(tmp_file.name, 'rb') as image_file:
-                return image_file.read()
+        # Créer un dossier temporaire spécifique
+        temp_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "temp_img")
+        os.makedirs(temp_dir, exist_ok=True)
+        
+        # Utiliser un nom de fichier unique dans notre dossier temporaire
+        file_basename = os.path.basename(pdf_path).replace(" ", "_").replace(".", "_")
+        tmp_file_name = os.path.join(temp_dir, f"{file_basename}_page{page_number}.png")
+        
+        # Sauvegarder l'image
+        pix.save(tmp_file_name)
+        
+        # Lire les données
+        with open(tmp_file_name, 'rb') as image_file:
+            image_data = image_file.read()
+            
+        return image_data
+        
     finally:
-        if 'pdf_document' in locals():
+        if pdf_document:
             pdf_document.close()
-        if 'tmp_file' in locals():
-            try:
-                os.unlink(tmp_file.name)
-            except:
-                pass
-
-def visualize_image(image_bytes: bytes):
+        
+        # Ne pas essayer de supprimer le fichier tout de suite pour éviter les erreurs de permission
+        # def visualize_image(image_bytes: bytes):
     """Décode et affiche l'image à partir de bytes."""
     try:
         image = PILImage.open(io.BytesIO(image_bytes))

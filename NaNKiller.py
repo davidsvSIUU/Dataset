@@ -37,10 +37,11 @@ def clean_jsonl(input_file: str, output_file: str = None):
         print(f"Nouveau fichier créé: {output_file}")
     
     print(f"Nombre de lignes conservées: {len(valid_lines)}")
+    
 # Exemple d'utilisation
 if __name__ == "__main__":
     # Remplacez par le chemin de votre fichier
-    input_file = "/Users/vuong/Desktop/geotechnie/AirFranceKLM-query.jsonl"
+    input_file = "C:\\Users\\david\\Desktop\\dataset\\EasyJet-query.jsonl"
     
     # Option 1: Écraser le fichier d'origine
     clean_jsonl(input_file)
