@@ -540,8 +540,8 @@ async def process_pdf_folder(folder_path: str, output_path: str) -> Dict[str, Li
     return results
 
 if __name__ == "__main__":
-    PDF_FOLDER = "/Users/vuong/Desktop/dataset-compagnie-aerienneV2/AirFranceKLM"
-    OUTPUT_FILE = "/Users/vuong/Desktop/geotechnie/AirFranceKLM-query.jsonl"
+    PDF_FOLDER = "C:\\Users\\david\\Desktop\\easyjet"
+    OUTPUT_FILE = "C:\\Users\\david\\Desktop\\dataset\\EasyJet-query.jsonl"
     
     os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
     

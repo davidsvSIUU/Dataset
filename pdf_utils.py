@@ -45,34 +45,43 @@ def capture_page_image(pdf_path: str, page_number: int) -> bytes:
         return None
 
 def capture_page_image_hd(pdf_path: str, page_number: int) -> bytes:
+    pdf_document = None
+    tmp_file = None
     try:
         pdf_document = fitz.open(pdf_path)
         page = pdf_document[page_number]
         
         # Increase the resolution/DPI
-        zoom = 2.0  # Increase this value for higher resolution
-        mat = fitz.Matrix(zoom, zoom)  # Create transformation matrix
+        zoom = 2.0
+        mat = fitz.Matrix(zoom, zoom)
         
         # Get the pixmap with enhanced settings
         pix = page.get_pixmap(
-            matrix=mat,            # Apply zoom transformation
-            alpha=False,           # Remove alpha channel for cleaner output
-            colorspace=fitz.csRGB  # Ensure RGB colorspace
+            matrix=mat,
+            alpha=False,
+            colorspace=fitz.csRGB
         )
         
-        with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as tmp_file:
-            pix.save(tmp_file.name)
-            with open(tmp_file.name, 'rb') as image_file:
-                return image_file.read()
+        tmp_file = tempfile.NamedTemporaryFile(suffix='.png', delete=False)
+        tmp_file_name = tmp_file.name
+        tmp_file.close()  # Close the file handle explicitly
+        
+        pix.save(tmp_file_name)
+        with open(tmp_file_name, 'rb') as image_file:
+            image_data = image_file.read()
+        
+        # Essayer de supprimer le fichier, mais ignorer les erreurs
+        try:
+            os.unlink(tmp_file_name)
+        except Exception as e:
+            print(f"Warning: Could not delete temporary file {tmp_file_name}: {e}")
+            pass
+            
+        return image_data
+    
     finally:
-        if 'pdf_document' in locals():
+        if pdf_document:
             pdf_document.close()
-        if 'tmp_file' in locals():
-            try:
-                os.unlink(tmp_file.name)
-            except:
-                pass
-
 def capture_page_image_jpeg(pdf_path: str, page_number: int) -> bytes:
     try:
         pdf_document = fitz.open(pdf_path)
